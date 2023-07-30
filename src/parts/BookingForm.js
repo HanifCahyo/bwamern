@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-
+import { withRouter } from "react-router-dom";
 import propTypes from "prop-types";
 
 import Button from "elements/Button";
 import { InputNumber, InputDate } from "elements/Form";
 
-export default class BookingForm extends Component {
+class BookingForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -62,6 +62,18 @@ export default class BookingForm extends Component {
     }
   }
 
+  startBooking = () => {
+    this.props.startBooking({
+      _id: this.props.itemDetails._id,
+      duration: this.state.data.duration,
+      date: {
+        startDate: this.state.data.date.startDate,
+        endDate: this.state.data.date.endDate,
+      },
+    });
+    this.props.history.push("/checkout");
+  };
+
   render() {
     const { data } = this.state;
     const { itemDetails, startBooking } = this.props;
@@ -93,26 +105,25 @@ export default class BookingForm extends Component {
           className="text-gray-500 font-weight-light"
           style={{ marginBottom: 40 }}
         >
-            You will pay{" "}
-            <span className="text-gray-900">
-                ${itemDetails.price * data.duration} USD
-            </span>{" "}
-            per{" "}
-            <span className="text-gray-900">
-                {data.duration} {itemDetails.unit}
-            </span>
+          You will pay{" "}
+          <span className="text-gray-900">
+            ${itemDetails.price * data.duration} USD
+          </span>{" "}
+          per{" "}
+          <span className="text-gray-900">
+            {data.duration} {itemDetails.unit}
+          </span>
         </h6>
 
         <Button
-            className="btn"
-            hasShadow
-            isPrimary
-            isBlock
-            onClick={startBooking}
+          className="btn"
+          hasShadow
+          isPrimary
+          isBlock
+          onClick={this.startBooking}
         >
-            Continue to Book
+          Continue to Book
         </Button>
-
       </div>
     );
   }
@@ -122,3 +133,5 @@ BookingForm.propTypes = {
   itemDetails: propTypes.object,
   startBooking: propTypes.func,
 };
+
+export default withRouter(BookingForm);
