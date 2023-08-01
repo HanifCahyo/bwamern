@@ -17,6 +17,8 @@ import Completed from "parts/Checkout/Completed";
 
 import ItemDetails from "json/itemDetails.json";
 
+import { submitBooking } from "store/actions/checkout";
+
 class Checkout extends Component {
   state = {
     data: {
@@ -43,10 +45,37 @@ class Checkout extends Component {
     window.scroll(0, 0);
   }
 
+  _Submit = (nextStep) => {
+    const { data } = this.state;
+    const { checkout } = this.props;
+    const payload = new FormData();
+    payload.append("firstName", this.state.data.firstName);
+    payload.append("lastName", this.state.data.lastName);
+    payload.append("email", this.state.data.email);
+    payload.append("phoneNumber", this.state.data.phone);
+    payload.append("idItem", this.props.checkout._id);
+    payload.append("duration", this.props.checkout.duration);
+    payload.append("bookingStartDate", this.props.checkout.date.startDate);
+    payload.append("bookingEndDate", this.props.checkout.date.endDate);
+    payload.append("accountHolder", this.state.data.bankHolder);
+    payload.append("bankFrom", this.state.data.bankName);
+    payload.append("image", this.state.data.proofPayment[0]);
+    // payload.append("bankId", this.props.checkout.bankId);
+
+    this.props
+      .submitBooking(payload)
+      .then(() => {
+        nextStep();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   render() {
     const { data } = this.state;
     const { checkout, page } = this.props;
-
+    // console.log(checkout, data);
     if (!checkout)
       return (
         <div className="container">
@@ -163,7 +192,7 @@ class Checkout extends Component {
                           isBlock
                           isPrimary
                           hasShadow
-                          onClick={nextStep}
+                          onClick={() => this._Submit(nextStep)}
                         >
                           Continue to Book
                         </Button>
@@ -208,4 +237,4 @@ const mapStateToProps = (state) => ({
   page: state.page,
 }); // state yang ada di redux store
 
-export default connect(mapStateToProps)(Checkout);
+export default connect(mapStateToProps, { submitBooking })(Checkout);
