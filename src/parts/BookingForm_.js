@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { InputNumber, InputDate } from "elements/Form";
@@ -65,7 +65,7 @@ function BookingForm() {
   }
 
   return (
-    <div className="card bordered" style={{ padding: "60px 80px" }}>
+    <div className="card bordered card-booking">
       <h4 className="mb-3"></h4>
       <h5 className="h2 text-teal mb-4">
         ${itemDetails.price}{" "}

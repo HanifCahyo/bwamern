@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-import second from "elements/Breadcrumb";
 import Breadcrumb from "elements/Breadcrumb";
 
 export default class Example extends Component {

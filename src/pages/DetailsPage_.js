@@ -32,14 +32,14 @@ function DetailsPage_() {
         document.title = `Staycation | ${response.title}`;
       }
     },
-    [dispatch]
+    [dispatch, page]
   );
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
     fnLoadPage(id);
-  }, [id]);
+  }, [id, fnLoadPage]);
 
   if (!page[id]) return null;
 
@@ -50,12 +50,12 @@ function DetailsPage_() {
       <FeaturedImage />
       <section className="container">
         <div className="row">
-          <div className="col-7 pr-5">
+          <div className="col-12 col-lg-7 pr-5">
             <Fade bottom>
               <PageDetailDescription data={page[id]} />
             </Fade>
           </div>
-          <div className="col-5">
+          <div className="col-12 col-lg-5">
             <Fade bottom>
               <BookingForm />
             </Fade>

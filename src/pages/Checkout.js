@@ -89,7 +89,7 @@ class Checkout extends Component {
                 <Button
                   className="btn mt-5"
                   type="button"
-                  onClick={() => this.props.history.goBack()}
+                  onClick={() => window.history.back()}
                   isLight
                 >
                   Back
